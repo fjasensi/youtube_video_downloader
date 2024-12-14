@@ -1,0 +1,9 @@
+general:
+  downloads: /mnt/f/PyYt
+
+paths:
+  sci: science
+  tech: technology
+  math: maths
+  bd: big_data
+  df: default
