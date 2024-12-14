@@ -16,7 +16,8 @@ def download_video(config, url, category):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     options = {
-        'format': 'best',  # Best quality
+        'format': 'bestvideo+bestaudio/best',
+        'merge_output_format': 'mp4',
         'outtmpl': f'{final_path}/{timestamp}_%(title)s.%(ext)s',  # Save path
         'writesubtitles': True,  # Download subtitles
         'subtitleslangs': ['en'],  # Subtitles language

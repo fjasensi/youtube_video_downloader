@@ -109,3 +109,6 @@ pyyt "https://www.youtube.com/watch?v=example123" sci
 The project uses the following Python libraries:
 - yt_dlp: For downloading YouTube videos.
 - pyyaml: For handling YAML configuration files.
+
+## Important
+To download in maximum quality you need ffmpeg installed in your system.
