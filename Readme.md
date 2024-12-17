@@ -28,9 +28,9 @@ pip install -r requirements.txt
 
 
 ### Add alias
-To simplify running the tool, create a custom alias in your .bashrc file:
+To simplify running the tool, create a custom alias in your `.bashrc` file:
 
-Open your .bashrc file
+Open your `.bashrc` file
 ```bash
 nano ~/.bashrc
 ```
@@ -45,7 +45,7 @@ pyyt() {
 }
 ```
 
-Reload the ,bashrc file,
+Reload the `.bashrc` file,
 ```
 source ~/.bashrc
 ```
@@ -94,11 +94,14 @@ pyyt <YouTube URL> [<category>]
 
 Example
 ```bash
-pyyt https://www.youtube.com/watch?v=example123
+pyyt "https://www.youtube.com/watch?v=example123"
 ```
 ```bash
 pyyt "https://www.youtube.com/watch?v=example123" sci
 ```
+
+### Downloading Playlists
+You can also download a complete playlist just by entering the url of the list.
 
 ## Command-Line Optins
 - url: Specify youtube video url

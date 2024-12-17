@@ -9,3 +9,5 @@ paths:
   df: default
   ai: artificial_intelligence
   eng: english
+  tut: tutorials
+  dev: development
