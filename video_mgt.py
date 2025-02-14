@@ -25,13 +25,11 @@ def download_video(config, url, category):
             'key': 'FFmpegVideoConvertor',
             'preferedformat': 'mp4',  # Convert to mp4
         }],
+        'ignoreerrors': True,
     }
 
     try:
         with yt_dlp.YoutubeDL(options) as ydl:
-            result = ydl.download([url])
-
-            if result != 0:
-                print(f"Cannot download: {url}")
+            ydl.download([url])
     except Exception as e:
         print(f"Error: {e}")
