@@ -29,6 +29,9 @@ def download_video(config, url, category):
 
     try:
         with yt_dlp.YoutubeDL(options) as ydl:
-            ydl.download([url])
+            result = ydl.download([url])
+
+            if result != 0:
+                print(f"Cannot download: {url}")
     except Exception as e:
         print(f"Error: {e}")

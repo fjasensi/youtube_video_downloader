@@ -1,5 +1,5 @@
 general:
-  downloads: /mnt/f/PyYt
+  downloads: /home/fjasensi/PyYt
 
 paths:
   sci: science
@@ -11,3 +11,5 @@ paths:
   eng: english
   tut: tutorials
   dev: development
+  cs: computer_science
+  mu: music
