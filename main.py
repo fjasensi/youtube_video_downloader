@@ -19,6 +19,8 @@ def get_args(config):
     parser.add_argument("url", type=str, help="Video url.")
     parser.add_argument("category", type=str, nargs="?", default=default_category,
                         help="Category folder to be saved (optional).")
+    parser.add_argument("only_audio", type=bool, nargs='?', default=False,
+            help="Download audio only.")
 
     # Parse arguments
     return parser.parse_args()
@@ -30,7 +32,7 @@ def main():
 
     args = get_args(config)
 
-    download_video(config, args.url, args.category)
+    download_video(config, args.url, args.category, args.only_audio)
 
 
 if __name__ == '__main__':

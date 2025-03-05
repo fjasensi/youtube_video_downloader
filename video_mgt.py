@@ -4,7 +4,7 @@ from datetime import datetime
 import yt_dlp
 
 
-def download_video(config, url, category):
+def download_video(config, url, category, only_audio):
     base_downloads = config.get("general", "downloads")
     category_path = config.get("paths", category)
 
@@ -15,18 +15,30 @@ def download_video(config, url, category):
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    options = {
-        'format': 'bestvideo+bestaudio/best',
-        'merge_output_format': 'mp4',
-        'outtmpl': f'{final_path}/{timestamp}_%(title)s.%(ext)s',  # Save path
-        'writesubtitles': True,  # Download subtitles
-        'subtitleslangs': ['en'],  # Subtitles language
-        'postprocessors': [{
-            'key': 'FFmpegVideoConvertor',
-            'preferedformat': 'mp4',  # Convert to mp4
-        }],
-        'ignoreerrors': True,
-    }
+    if not only_audio:
+        options = {
+            'format': 'bestvideo+bestaudio/best',
+            'merge_output_format': 'mp4',
+            'outtmpl': f'{final_path}/{timestamp}_%(title)s.%(ext)s',  # Save path
+            'writesubtitles': True,  # Download subtitles
+            'subtitleslangs': ['en'],  # Subtitles language
+            'postprocessors': [{
+                'key': 'FFmpegVideoConvertor',
+                'preferedformat': 'mp4',  # Convert to mp4
+            }],
+            'ignoreerrors': True,
+        }
+    else:
+        options = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+            'outtmpl': f'{final_path}/{timestamp}_%(title)s.%(ext)s',  # Save path
+             'ignoreerrors': True,
+         }
 
     try:
         with yt_dlp.YoutubeDL(options) as ydl:
