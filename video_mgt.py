@@ -1,43 +1,59 @@
 import os
-from datetime import datetime
 
 import yt_dlp
 
 
-def download_video(config, url, category, only_audio):
-    base_downloads = config.get("general", "downloads")
+VIDEO_FORMATS = {
+    "mp4": {
+        "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]",
+        "merge_output_format": "mp4",
+    },
+    "mkv": {
+        "format": "bestvideo+bestaudio/best",
+        "merge_output_format": "mkv",
+    },
+}
+
+
+def download_video(config, url, category, only_audio, container="mp4"):
+    base_downloads = os.path.expanduser(
+        os.path.expandvars(config.get("general", "downloads"))
+    )
     category_path = config.get("paths", category)
 
     if not category_path:
         category_path = config.get("paths", "df")
 
-    final_path = str(os.path.join(base_downloads, category_path))
+    final_path = str(os.path.join(base_downloads, category_path or ""))
+    os.makedirs(final_path, exist_ok=True)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_template = os.path.join(final_path, '%(title)s.%(ext)s')
+    shared_options = {
+        'ignoreerrors': True,
+        'noprogress': True,
+        'remote_components': ['ejs:github'],
+    }
 
     if not only_audio:
+        video_format = VIDEO_FORMATS.get(container, VIDEO_FORMATS["mp4"])
         options = {
-            'format': 'bestvideo+bestaudio/best',
-            'merge_output_format': 'mp4',
-            'outtmpl': f'{final_path}/{timestamp}_%(title)s.%(ext)s',  # Save path
+            **shared_options,
+            'format': video_format["format"],
+            'merge_output_format': video_format["merge_output_format"],
+            'outtmpl': output_template,
             'writesubtitles': True,  # Download subtitles
             'subtitleslangs': ['en'],  # Subtitles language
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4',  # Convert to mp4
-            }],
-            'ignoreerrors': True,
         }
     else:
         options = {
+            **shared_options,
             'format': 'bestaudio/best',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'outtmpl': f'{final_path}/{timestamp}_%(title)s.%(ext)s',  # Save path
-             'ignoreerrors': True,
+            'outtmpl': output_template,
          }
 
     try:

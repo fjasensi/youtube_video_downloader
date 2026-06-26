@@ -39,8 +39,8 @@ Adding the following alias:
 ```bash
 # pyYt
 pyyt() {
-  source /home/username/.virtualenvs/pyYt/bin/activate
-  python3 /home/username/repos/pyYt/main.py "$@"
+  source "$HOME/.virtualenvs/pyYt/bin/activate"
+  python3 "$HOME/repos/youtube_video_downloader/main.py" "$@"
   deactivate
 }
 ```
@@ -65,14 +65,14 @@ The configuration file is located at config/config.yaml. Below is an example of 
 
 ```yaml
 general:
-  downloads: /mnt/f/PyYt
+  downloads: "~/Downloads"
 
 paths:
   sci: science
   tech: technology
   math: maths
   bd: big_data
-  df: default
+  df: ""
 
 ```
 
@@ -106,12 +106,37 @@ You can also download a complete playlist just by entering the url of the list.
 ## Command-Line Optins
 - url: Specify youtube video url
 - category: Specify the category to save the video. If omitted, the default category is used.
+- --container: Specify the output video container. Defaults to mp4. Available options: mp4, mkv.
 - help: Display available options and usage.
 
 ## Dependencies
 The project uses the following Python libraries:
 - yt_dlp: For downloading YouTube videos.
 - pyyaml: For handling YAML configuration files.
+
+## Testing
+The project includes comprehensive unit tests to ensure functionality works correctly.
+
+### Running Tests
+To run the test suite:
+
+```bash
+# Activate the virtual environment
+source ~/.virtualenvs/pyYt/bin/activate
+
+# Run all tests
+python -m unittest discover tests -v
+
+# Run specific test file
+python -m unittest tests.test_config -v
+```
+
+### Test Coverage
+The tests cover:
+- Configuration loading and parsing
+- Path management and folder creation
+- Video download functionality with different options
+- Main module argument parsing and flow
 
 ## Important
 To download in maximum quality you need ffmpeg installed in your system.

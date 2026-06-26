@@ -2,7 +2,6 @@ import argparse
 import os
 
 from config import Config
-from paths_mgt import create_paths
 from video_mgt import download_video
 
 
@@ -21,6 +20,8 @@ def get_args(config):
                         help="Category folder to be saved (optional).")
     parser.add_argument("only_audio", type=bool, nargs='?', default=False,
             help="Download audio only.")
+    parser.add_argument("--container", choices=("mp4", "mkv"), default="mp4",
+                        help="Video container to be saved. Defaults to mp4.")
 
     # Parse arguments
     return parser.parse_args()
@@ -28,11 +29,9 @@ def get_args(config):
 def main():
     config = load_config("config/config.yaml")
 
-    create_paths(config)
-
     args = get_args(config)
 
-    download_video(config, args.url, args.category, args.only_audio)
+    download_video(config, args.url, args.category, args.only_audio, args.container)
 
 
 if __name__ == '__main__':
